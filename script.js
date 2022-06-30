@@ -13,15 +13,36 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
-// Starting conditions
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
+let scores, currentScore, activePlayer, playing;
 
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true;
+const init = function() {
+  // Starting conditions
+  
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
+  
+  // Reset Score 
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  
+  // Reset current score
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+  
+  // Reset the UI back to the normal state
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  diceEl.classList.add('hidden');
+  
+  // Switch to active player = player 1#
+  activePlayer = 0;
+  player1El.classList.remove('player--active');
+  player0El.classList.add('player--active');
+};
+
+init();
 
 const switchPlayer = function() {
     document.getElementById(`current--${activePlayer}`).textContent = 0;
@@ -55,7 +76,10 @@ btnRoll.addEventListener('click', function () {
   }
 });
 
+
+
 btnHold.addEventListener('click', function() {
+  console.log('button pressed');
   if (playing) {
     // 1 Add current score to score of active player
     scores[activePlayer] += currentScore;  
@@ -74,3 +98,6 @@ btnHold.addEventListener('click', function() {
     }
   }
 });
+
+// Reset game logic
+btnNew.addEventListener('click', init);
